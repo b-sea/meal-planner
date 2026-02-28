@@ -20,7 +20,7 @@ type Plan struct {
 	days       map[time.Time][]Meal
 }
 
-// New creates a new meal plan.
+// NewPlan creates a new meal plan.
 func NewPlan(id uuid.UUID, options ...PlanOption) Plan {
 	plan := Plan{
 		id: id,
