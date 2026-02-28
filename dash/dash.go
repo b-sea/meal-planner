@@ -47,7 +47,7 @@ func NewServingCount(count float64, item Tallier) ServingCount {
 	}
 }
 
-// TallyCount is the final tally count for a food group.
+// TallyCount is the total tally count for a food group.
 type TallyCount struct {
 	Group     Group
 	Min       float64

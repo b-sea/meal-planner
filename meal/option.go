@@ -32,11 +32,11 @@ func WithMeals(date time.Time, meals []Meal) PlanOption {
 }
 
 // WithCalorieTarget sets the calorie target for the meal plan.
-func WithCalorieTarget(min float64, max float64) PlanOption {
+func WithCalorieTarget(minimum float64, maximum float64) PlanOption {
 	return func(p *Plan) {
 		p.kcalTarget = CalorieTarget{
-			min: min,
-			max: max,
+			min: minimum,
+			max: maximum,
 		}
 	}
 }

@@ -37,23 +37,41 @@ func NewPlan(id ID, options ...PlanOption) Plan {
 	return plan
 }
 
+// TallyCount is the total nutritional value for a day.
 type TallyCount struct {
+	Nutrition food.Nutrition
+	Target    CalorieTarget
+	Deviation float64
 }
 
 // TallyNutrition calculates the total nutritional value of a day.
-func (p Plan) TallyNutrition(date time.Time) (food.Nutrition, error) {
-	total := food.NewNutrition(0, 0, 0, 0)
+func (p Plan) TallyNutrition(date time.Time) (TallyCount, error) {
+	result := TallyCount{
+		Nutrition: food.NewNutrition(0, 0, 0, 0),
+		Target:    p.kcalTarget,
+	}
 
 	for _, meal := range p.days[date] {
 		facts, err := meal.NutritionFacts()
 		if err != nil {
-			return food.NewNutrition(0, 0, 0, 0), err
+			return TallyCount{}, err
 		}
 
-		total.Add(facts)
+		result.Nutrition.Add(facts)
 	}
 
-	return total, nil
+	requirement := result.Target
+	count := result.Nutrition.Calories()
+
+	switch {
+	case count < requirement.min:
+		result.Deviation = count - requirement.min
+	case count > requirement.max:
+		result.Deviation = count - requirement.max
+	default:
+	}
+
+	return result, nil
 }
 
 // TallyDASH calculates the meal plan against the DASH diet.
