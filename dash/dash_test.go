@@ -22,8 +22,8 @@ func init() {
 
 func TestHMM(t *testing.T) {
 	diet := dash.New()
-	result := diet.Tally([]dash.Serving{
-		dash.NewServing(1.5, &apple), dash.NewServing(30, &apple),
+	result := diet.Tally([]dash.ServingCount{
+		dash.NewServingCount(1.5, &apple), dash.NewServingCount(30, &apple),
 	}, 7)
 	fmt.Printf("%+v", result)
 

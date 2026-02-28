@@ -7,22 +7,19 @@ import (
 	"github.com/b-sea/meal-planner/food"
 )
 
-var (
+const (
 	defaultKCalMin = 1950.0
 	defaultKCalMax = 2050.0
 )
 
-type CalorieTarget struct {
-	min float64
-	max float64
-}
-
+// Plan is a meal plan.
 type Plan struct {
 	id         ID
 	kcalTarget CalorieTarget
 	days       map[time.Time][]Meal
 }
 
+// NewPlan creates a new meal plan.
 func NewPlan(id ID, options ...PlanOption) Plan {
 	plan := Plan{
 		id: id,
@@ -40,37 +37,10 @@ func NewPlan(id ID, options ...PlanOption) Plan {
 	return plan
 }
 
-func (p Plan) AddDay(date time.Time) {
-	p.days[date] = make([]Meal, 0)
+type TallyCount struct {
 }
 
-func (p Plan) RemoveDay(date time.Time) {
-	delete(p.days, date)
-}
-
-func (p Plan) AddMeal(date time.Time, meal Meal) {
-	if _, ok := p.days[date]; !ok {
-		p.days[date] = make([]Meal, 0)
-	}
-
-	p.days[date] = append(p.days[date], meal)
-}
-
-func (p Plan) RemoveMeal(date time.Time, id ID) {
-	i := 0
-
-	for _, meal := range p.days[date] {
-		if meal.id != id {
-			continue
-		}
-
-		p.days[date][i] = meal
-		i++
-	}
-
-	p.days[date] = p.days[date][:i]
-}
-
+// TallyNutrition calculates the total nutritional value of a day.
 func (p Plan) TallyNutrition(date time.Time) (food.Nutrition, error) {
 	total := food.NewNutrition(0, 0, 0, 0)
 
@@ -86,18 +56,21 @@ func (p Plan) TallyNutrition(date time.Time) (food.Nutrition, error) {
 	return total, nil
 }
 
-func (p Plan) TallyDASH(diet dash.DASH) ([]dash.Count, error) {
-	servings := make([]dash.Serving, 0)
+// TallyDASH calculates the meal plan against the DASH diet.
+func (p Plan) TallyDASH(diet dash.DASH) ([]dash.TallyCount, error) {
+	servings := make([]dash.ServingCount, 0)
 
 	for day := range p.days {
 		for _, meal := range p.days[day] {
 			for _, ingredient := range meal.ingredients {
 				converted, err := ingredient.quantity.Convert(ingredient.item.ServingSize().Unit())
 				if err != nil {
-					return nil, err
+					return nil, unitConversionError(err)
 				}
 
-				dash.NewServing(converted.Float()/ingredient.item.ServingSize().Float(), &ingredient.item)
+				servings = append(servings,
+					dash.NewServingCount(converted.Float()/ingredient.item.ServingSize().Float(), &ingredient.item),
+				)
 			}
 		}
 	}

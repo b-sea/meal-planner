@@ -2,33 +2,36 @@ package meal
 
 import (
 	"time"
-
-	"github.com/b-sea/meal-planner/food"
-	"github.com/bcicen/go-units"
 )
 
+// Option is a create or update option for meals.
 type Option func(m *Meal)
 
+// WithName sets the meal name.
 func WithName(name string) Option {
 	return func(m *Meal) {
 		m.name = name
 	}
 }
 
-func WithIngredient(quantity units.Value, item food.Food) Option {
+// WithIngredients sets the meal ingredients.
+func WithIngredients(ingredients []Ingredient) Option {
 	return func(m *Meal) {
-		m.ingredients = append(m.ingredients, Ingredient{quantity: quantity, item: item})
+		m.ingredients = ingredients
 	}
 }
 
+// PlanOption is a create or update option for meal plans.
 type PlanOption func(p *Plan)
 
-func WithDay(date time.Time, meals []Meal) PlanOption {
+// WithMeals sets the meals for a given day in the meal plan.
+func WithMeals(date time.Time, meals []Meal) PlanOption {
 	return func(p *Plan) {
 		p.days[date] = meals
 	}
 }
 
+// WithCalorieTarget sets the calorie target for the meal plan.
 func WithCalorieTarget(min float64, max float64) PlanOption {
 	return func(p *Plan) {
 		p.kcalTarget = CalorieTarget{

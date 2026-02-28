@@ -4,6 +4,7 @@ import (
 	"github.com/bcicen/go-units"
 )
 
+// Nutrition is nutrition facts.
 type Nutrition struct {
 	kcal         float64
 	totalFat     units.Value
@@ -16,6 +17,7 @@ type Nutrition struct {
 	protein      units.Value
 }
 
+// NewNutrition creates new nutrition facts.
 func NewNutrition(kcal float64, fat float64, carbs float64, protein float64, options ...NutritionOption) Nutrition {
 	nutrition := Nutrition{
 		kcal:         0,
@@ -41,12 +43,14 @@ func NewNutrition(kcal float64, fat float64, carbs float64, protein float64, opt
 	return nutrition
 }
 
+// Update existing nutrition facts.
 func (n Nutrition) Update(options ...NutritionOption) {
 	for _, option := range options {
 		option(&n)
 	}
 }
 
+// Scale nutrition facts by a percentage.
 func (n Nutrition) Scale(ratio float64) Nutrition {
 	return Nutrition{
 		kcal:         n.kcal * ratio,
@@ -61,6 +65,7 @@ func (n Nutrition) Scale(ratio float64) Nutrition {
 	}
 }
 
+// Add nutrition facts together.
 func (n Nutrition) Add(other Nutrition) Nutrition {
 	return Nutrition{
 		kcal:         n.kcal + other.kcal,
@@ -75,38 +80,47 @@ func (n Nutrition) Add(other Nutrition) Nutrition {
 	}
 }
 
+// Calories are the nutritional calories.
 func (n Nutrition) Calories() float64 {
 	return n.kcal
 }
 
+// TotalFat is the nutritional total fat in grams.
 func (n Nutrition) TotalFat() units.Value {
 	return n.totalFat
 }
 
+// SaturatedFat is the nutritional saturated fat in grams.
 func (n Nutrition) SaturatedFat() units.Value {
 	return n.saturatedFat
 }
 
+// TransFat is the nutritional trans fat in grams.
 func (n Nutrition) TransFat() units.Value {
 	return n.transFat
 }
 
+// Sodium is the nutritional sodium in milligrams.
 func (n Nutrition) Sodium() units.Value {
 	return n.sodium
 }
 
-func (n Nutrition) TotalCarbs() units.Value {
+// TotalCarbohydrates is the nutritional total carbohydrates in grams.
+func (n Nutrition) TotalCarbohydrates() units.Value {
 	return n.totalCarbs
 }
 
+// Fiber is the nutritional fiber in grams.
 func (n Nutrition) Fiber() units.Value {
 	return n.fiber
 }
 
+// TotalSugars is the nutritional total sugar in grams.
 func (n Nutrition) TotalSugars() units.Value {
 	return n.totalSugars
 }
 
+// Protein is the nutritional protein in grams.
 func (n Nutrition) Protein() units.Value {
 	return n.protein
 }

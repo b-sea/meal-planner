@@ -1,62 +1,17 @@
+// Package dash defines and implements the DASH diet.
 package dash
 
-type Group int
-
-const (
-	VeggieGroup Group = iota
-	FruitGroup
-	GrainGroup
-	DairyGroup
-	AnimalProteinGroup
-	PlantProteinGroup
-	LipidGroup
-)
-
-func (g Group) String() string {
-	switch g {
-	case VeggieGroup:
-		return "vegetables"
-	case FruitGroup:
-		return "fruit"
-	case GrainGroup:
-		return "grains"
-	case DairyGroup:
-		return "dairy"
-	case AnimalProteinGroup:
-		return "animal protein"
-	case PlantProteinGroup:
-		return "plant protein"
-	case LipidGroup:
-		return "lipids"
-	default:
-		return "unknown"
-	}
-}
-
+// Tallier defines functions required for something to be recognized as part of the DASH diet.
 type Tallier interface {
 	DASHGroup() Group
 }
 
-type Requirement struct {
-	group Group
-	min   float64
-	max   float64
-	days  int
-}
-
-func (r Requirement) Extrapolate(days int) Requirement {
-	return Requirement{
-		group: r.group,
-		min:   r.min / float64(r.days) * float64(days),
-		max:   r.max / float64(r.days) * float64(days),
-		days:  days,
-	}
-}
-
+// DASH is a "Dietary Approach to Stop Hypertension" diet.
 type DASH struct {
 	requirements []Requirement
 }
 
+// New creates a new DASH diet.
 func New() *DASH {
 	diet := &DASH{
 		requirements: []Requirement{
@@ -73,23 +28,27 @@ func New() *DASH {
 	return diet
 }
 
+// Requirements returns the DASH dietary requirements.
 func (d DASH) Requirements() []Requirement {
 	return d.requirements
 }
 
-type Serving struct {
+// ServingCount is the amount of servings of a partictular DASH diet food item.
+type ServingCount struct {
 	count float64
 	item  Tallier
 }
 
-func NewServing(count float64, item Tallier) Serving {
-	return Serving{
+// NewServingCount creates a new DASH serving count.
+func NewServingCount(count float64, item Tallier) ServingCount {
+	return ServingCount{
 		count: count,
 		item:  item,
 	}
 }
 
-type Count struct {
+// TallyCount is the final tally count for a food group.
+type TallyCount struct {
 	Group     Group
 	Min       float64
 	Max       float64
@@ -97,14 +56,15 @@ type Count struct {
 	Deviation float64
 }
 
-func (d *DASH) Tally(servings []Serving, days int) []Count {
+// Tally calculates the given serving counts against a number of days and evaluate if the diet has been met.
+func (d DASH) Tally(servingCounts []ServingCount, days int) []TallyCount {
 	tallies := make(map[Group]float64)
 
-	for _, serving := range servings {
-		tallies[serving.item.DASHGroup()] += serving.count
+	for _, servingCount := range servingCounts {
+		tallies[servingCount.item.DASHGroup()] += servingCount.count
 	}
 
-	result := make([]Count, 0)
+	result := make([]TallyCount, 0)
 
 	for i := range d.requirements {
 		requirement := d.requirements[i].Extrapolate(days)
@@ -121,7 +81,7 @@ func (d *DASH) Tally(servings []Serving, days int) []Count {
 
 		result = append(
 			result,
-			Count{
+			TallyCount{
 				Group:     requirement.group,
 				Min:       requirement.min,
 				Max:       requirement.max,

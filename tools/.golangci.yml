@@ -9,7 +9,6 @@ linters:
     - depguard
     - noinlineerr
     - exhaustruct
-    - revive
 
   settings:
     wsl_v5:

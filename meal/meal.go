@@ -1,32 +1,22 @@
+// Package meal defines and implements meal planning.
 package meal
 
 import (
 	"github.com/b-sea/meal-planner/food"
-	"github.com/bcicen/go-units"
 )
 
+// ID is a unique identifier for meal planning related things.
 type ID string
 
-type Ingredient struct {
-	item     food.Food
-	quantity units.Value
-}
-
-func (i Ingredient) Item() food.Food {
-	return i.item
-}
-
-func (i Ingredient) Quantity() units.Value {
-	return i.quantity
-}
-
+// Meal is a planned meal.
 type Meal struct {
 	id          ID
 	name        string
 	ingredients []Ingredient
 }
 
-func NewMeal(id ID, name string, options ...Option) Meal {
+// New creates a new meal.
+func New(id ID, name string, options ...Option) Meal {
 	meal := Meal{
 		id:          id,
 		name:        "",
@@ -42,24 +32,29 @@ func NewMeal(id ID, name string, options ...Option) Meal {
 	return meal
 }
 
+// Update an existing meal.
 func (m Meal) Update(options ...Option) {
 	for _, option := range options {
 		option(&m)
 	}
 }
 
+// ID returns the meal id.
 func (m Meal) ID() ID {
 	return m.id
 }
 
+// Name returns the meal name.
 func (m Meal) Name() string {
 	return m.name
 }
 
+// Ingredients returns the meal ingredients.
 func (m Meal) Ingredients() []Ingredient {
 	return m.ingredients
 }
 
+// NutritionFacts calculates the total nutritional values for a meal.
 func (m Meal) NutritionFacts() (food.Nutrition, error) {
 	total := food.NewNutrition(0, 0, 0, 0)
 
