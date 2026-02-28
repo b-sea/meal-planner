@@ -5,6 +5,7 @@ type Group int
 
 // VeggieGroup, et al. are the various DASH food groups.
 const (
+	NoGroup     Group = iota
 	VeggieGroup Group = iota
 	FruitGroup
 	GrainGroup
@@ -30,7 +31,9 @@ func (g Group) String() string {
 		return "plant protein"
 	case LipidGroup:
 		return "lipids"
+	case NoGroup:
+		fallthrough
 	default:
-		return "unknown"
+		return "none"
 	}
 }

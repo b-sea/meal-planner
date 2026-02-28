@@ -3,26 +3,29 @@ package meal
 import (
 	"github.com/b-sea/meal-planner/food"
 	"github.com/bcicen/go-units"
+	"github.com/google/uuid"
 )
 
 // Ingredient is a component of a meal with a quantity.
 type Ingredient struct {
-	id       ID
+	id       uuid.UUID
 	quantity units.Value
 	item     food.Food
+	order    int
 }
 
 // NewIngredient creates a new ingredient.
-func NewIngredient(id ID, quantity units.Value, item food.Food) Ingredient {
+func NewIngredient(id uuid.UUID, quantity units.Value, item food.Food, order int) Ingredient {
 	return Ingredient{
 		id:       id,
 		quantity: quantity,
 		item:     item,
+		order:    order,
 	}
 }
 
 // ID returns the ingredient id.
-func (i Ingredient) ID() ID {
+func (i Ingredient) ID() uuid.UUID {
 	return i.id
 }
 
@@ -34,4 +37,9 @@ func (i Ingredient) Item() food.Food {
 // Quantity returns the ingredient quantity.
 func (i Ingredient) Quantity() units.Value {
 	return i.quantity
+}
+
+// Order returns the ingredient order.
+func (i Ingredient) Order() int {
+	return i.order
 }

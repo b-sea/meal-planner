@@ -2,6 +2,8 @@ package meal
 
 import (
 	"time"
+
+	"github.com/google/uuid"
 )
 
 // Option is a create or update option for meals.
@@ -17,7 +19,11 @@ func WithName(name string) Option {
 // WithIngredients sets the meal ingredients.
 func WithIngredients(ingredients []Ingredient) Option {
 	return func(m *Meal) {
-		m.ingredients = ingredients
+		m.ingredients = make(map[uuid.UUID]Ingredient)
+
+		for _, ingredient := range ingredients {
+			m.ingredients[ingredient.id] = ingredient
+		}
 	}
 }
 
@@ -31,12 +37,9 @@ func WithMeals(date time.Time, meals []Meal) PlanOption {
 	}
 }
 
-// WithCalorieTarget sets the calorie target for the meal plan.
-func WithCalorieTarget(minimum float64, maximum float64) PlanOption {
+// WithCalorieTarget sets the daily calorie target for the meal plan.
+func WithCalorieTarget(target CalorieTarget) PlanOption {
 	return func(p *Plan) {
-		p.kcalTarget = CalorieTarget{
-			min: minimum,
-			max: maximum,
-		}
+		p.kcalTarget = target
 	}
 }

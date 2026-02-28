@@ -12,8 +12,8 @@ type DASH struct {
 }
 
 // New creates a new DASH diet.
-func New() *DASH {
-	diet := &DASH{
+func New() DASH {
+	diet := DASH{
 		requirements: []Requirement{
 			{group: VeggieGroup, min: 4, max: 5, days: 1},        //nolint:mnd
 			{group: FruitGroup, min: 4, max: 5, days: 1},         //nolint:mnd

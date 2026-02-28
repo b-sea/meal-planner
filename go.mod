@@ -4,6 +4,7 @@ go 1.25.4
 
 require (
 	github.com/bcicen/go-units v1.0.5
+	github.com/google/uuid v1.6.0
 	github.com/stretchr/testify v1.11.1
 )
 

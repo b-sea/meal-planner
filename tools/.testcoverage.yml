@@ -8,7 +8,7 @@ threshold:
 
 exclude:
   paths:
-    - noop.go
-    - prometheus.go
+    - dash/group.go
+    - meal/error.go
 
 force-annotation-comment: true

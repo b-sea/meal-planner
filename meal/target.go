@@ -6,6 +6,14 @@ type CalorieTarget struct {
 	max float64
 }
 
+// NewCalorieTarget creates a new daily target caloric range.
+func NewCalorieTarget(minimum float64, maximum float64) CalorieTarget {
+	return CalorieTarget{
+		min: minimum,
+		max: maximum,
+	}
+}
+
 // Min is the daily min target for a meal plan.
 func (c CalorieTarget) Min() float64 {
 	return c.min

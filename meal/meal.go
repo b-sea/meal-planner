@@ -3,24 +3,22 @@ package meal
 
 import (
 	"github.com/b-sea/meal-planner/food"
+	"github.com/google/uuid"
 )
-
-// ID is a unique identifier for meal planning related things.
-type ID string
 
 // Meal is a planned meal.
 type Meal struct {
-	id          ID
+	id          uuid.UUID
 	name        string
-	ingredients []Ingredient
+	ingredients map[uuid.UUID]Ingredient
 }
 
 // New creates a new meal.
-func New(id ID, name string, options ...Option) Meal {
+func New(id uuid.UUID, name string, options ...Option) Meal {
 	meal := Meal{
 		id:          id,
 		name:        "",
-		ingredients: make([]Ingredient, 0),
+		ingredients: make(map[uuid.UUID]Ingredient),
 	}
 
 	options = append([]Option{WithName(name)}, options...)
@@ -33,29 +31,35 @@ func New(id ID, name string, options ...Option) Meal {
 }
 
 // Update an existing meal.
-func (m Meal) Update(options ...Option) {
+func (m *Meal) Update(options ...Option) {
 	for _, option := range options {
-		option(&m)
+		option(m)
 	}
 }
 
 // ID returns the meal id.
-func (m Meal) ID() ID {
+func (m *Meal) ID() uuid.UUID {
 	return m.id
 }
 
 // Name returns the meal name.
-func (m Meal) Name() string {
+func (m *Meal) Name() string {
 	return m.name
 }
 
 // Ingredients returns the meal ingredients.
-func (m Meal) Ingredients() []Ingredient {
-	return m.ingredients
+func (m *Meal) Ingredients() []Ingredient {
+	ingredients := make([]Ingredient, 0)
+
+	for _, ingredient := range m.ingredients {
+		ingredients = append(ingredients, ingredient)
+	}
+
+	return ingredients
 }
 
 // NutritionFacts calculates the total nutritional values for a meal.
-func (m Meal) NutritionFacts() (food.Nutrition, error) {
+func (m *Meal) NutritionFacts() (food.Nutrition, error) {
 	total := food.NewNutrition(0, 0, 0, 0)
 
 	for _, ingredient := range m.ingredients {
@@ -68,7 +72,7 @@ func (m Meal) NutritionFacts() (food.Nutrition, error) {
 			continue
 		}
 
-		total.Add(*facts)
+		total = total.Add(*facts)
 	}
 
 	return total, nil

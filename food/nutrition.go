@@ -54,14 +54,14 @@ func (n Nutrition) Update(options ...NutritionOption) {
 func (n Nutrition) Scale(ratio float64) Nutrition {
 	return Nutrition{
 		kcal:         n.kcal * ratio,
-		totalFat:     units.NewValue(n.totalFat.Float()+ratio, n.totalFat.Unit()),
-		saturatedFat: units.NewValue(n.saturatedFat.Float()+ratio, n.saturatedFat.Unit()),
-		transFat:     units.NewValue(n.transFat.Float()+ratio, n.transFat.Unit()),
-		sodium:       units.NewValue(n.transFat.Float()+ratio, n.sodium.Unit()),
-		totalCarbs:   units.NewValue(n.totalCarbs.Float()+ratio, n.totalCarbs.Unit()),
-		fiber:        units.NewValue(n.fiber.Float()+ratio, n.fiber.Unit()),
-		totalSugars:  units.NewValue(n.totalSugars.Float()+ratio, n.totalSugars.Unit()),
-		protein:      units.NewValue(n.protein.Float()+ratio, n.protein.Unit()),
+		totalFat:     units.NewValue(n.totalFat.Float()*ratio, n.totalFat.Unit()),
+		saturatedFat: units.NewValue(n.saturatedFat.Float()*ratio, n.saturatedFat.Unit()),
+		transFat:     units.NewValue(n.transFat.Float()*ratio, n.transFat.Unit()),
+		sodium:       units.NewValue(n.sodium.Float()*ratio, n.sodium.Unit()),
+		totalCarbs:   units.NewValue(n.totalCarbs.Float()*ratio, n.totalCarbs.Unit()),
+		fiber:        units.NewValue(n.fiber.Float()*ratio, n.fiber.Unit()),
+		totalSugars:  units.NewValue(n.totalSugars.Float()*ratio, n.totalSugars.Unit()),
+		protein:      units.NewValue(n.protein.Float()*ratio, n.protein.Unit()),
 	}
 }
 
@@ -72,7 +72,7 @@ func (n Nutrition) Add(other Nutrition) Nutrition {
 		totalFat:     units.NewValue(n.totalFat.Float()+other.totalFat.Float(), n.totalFat.Unit()),
 		saturatedFat: units.NewValue(n.saturatedFat.Float()+other.saturatedFat.Float(), n.saturatedFat.Unit()),
 		transFat:     units.NewValue(n.transFat.Float()+other.transFat.Float(), n.transFat.Unit()),
-		sodium:       units.NewValue(n.transFat.Float()+other.transFat.Float(), n.sodium.Unit()),
+		sodium:       units.NewValue(n.sodium.Float()+other.sodium.Float(), n.sodium.Unit()),
 		totalCarbs:   units.NewValue(n.totalCarbs.Float()+other.totalCarbs.Float(), n.totalCarbs.Unit()),
 		fiber:        units.NewValue(n.fiber.Float()+other.fiber.Float(), n.fiber.Unit()),
 		totalSugars:  units.NewValue(n.totalSugars.Float()+other.totalSugars.Float(), n.totalSugars.Unit()),

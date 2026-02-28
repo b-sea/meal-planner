@@ -5,6 +5,7 @@ import (
 
 	"github.com/b-sea/meal-planner/dash"
 	"github.com/b-sea/meal-planner/food"
+	"github.com/google/uuid"
 )
 
 const (
@@ -14,13 +15,13 @@ const (
 
 // Plan is a meal plan.
 type Plan struct {
-	id         ID
+	id         uuid.UUID
 	kcalTarget CalorieTarget
 	days       map[time.Time][]Meal
 }
 
-// NewPlan creates a new meal plan.
-func NewPlan(id ID, options ...PlanOption) Plan {
+// New creates a new meal plan.
+func NewPlan(id uuid.UUID, options ...PlanOption) Plan {
 	plan := Plan{
 		id: id,
 		kcalTarget: CalorieTarget{
@@ -45,7 +46,7 @@ type TallyCount struct {
 }
 
 // TallyNutrition calculates the total nutritional value of a day.
-func (p Plan) TallyNutrition(date time.Time) (TallyCount, error) {
+func (p *Plan) TallyNutrition(date time.Time) (TallyCount, error) {
 	result := TallyCount{
 		Nutrition: food.NewNutrition(0, 0, 0, 0),
 		Target:    p.kcalTarget,
@@ -57,7 +58,7 @@ func (p Plan) TallyNutrition(date time.Time) (TallyCount, error) {
 			return TallyCount{}, err
 		}
 
-		result.Nutrition.Add(facts)
+		result.Nutrition = result.Nutrition.Add(facts)
 	}
 
 	requirement := result.Target
@@ -75,7 +76,7 @@ func (p Plan) TallyNutrition(date time.Time) (TallyCount, error) {
 }
 
 // TallyDASH calculates the meal plan against the DASH diet.
-func (p Plan) TallyDASH(diet dash.DASH) ([]dash.TallyCount, error) {
+func (p *Plan) TallyDASH(diet dash.DASH) ([]dash.TallyCount, error) {
 	servings := make([]dash.ServingCount, 0)
 
 	for day := range p.days {

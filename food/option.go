@@ -30,9 +30,16 @@ func WithServingSize(value units.Value) Option {
 }
 
 // WithNutritionFacts sets the food nutrition facts.
-func WithNutritionFacts(facts *Nutrition) Option {
+func WithNutritionFacts(facts Nutrition) Option {
 	return func(f *Food) {
-		f.facts = facts
+		f.facts = &facts
+	}
+}
+
+// ClearNutritionFacts clears the food nutrition facts.
+func ClearNutritionFacts() Option {
+	return func(f *Food) {
+		f.facts = nil
 	}
 }
 
@@ -63,7 +70,7 @@ func WithSaturatedFat(grams float64) NutritionOption {
 // WithTransFat sets the nutritional trans fat in grams.
 func WithTransFat(grams float64) NutritionOption {
 	return func(n *Nutrition) {
-		n.totalFat = units.NewValue(grams, units.Gram)
+		n.transFat = units.NewValue(grams, units.Gram)
 	}
 }
 

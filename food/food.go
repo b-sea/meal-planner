@@ -4,16 +4,14 @@ package food
 import (
 	"github.com/b-sea/meal-planner/dash"
 	"github.com/bcicen/go-units"
+	"github.com/google/uuid"
 )
-
-// ID is a unique identifier for food-related things.
-type ID string
 
 var _ dash.Tallier = (*Food)(nil)
 
 // Food is a foodstuff.
 type Food struct {
-	id          ID
+	id          uuid.UUID
 	name        string
 	group       dash.Group
 	servingSize units.Value
@@ -21,7 +19,7 @@ type Food struct {
 }
 
 // New creates a new food.
-func New(id ID, name string, group dash.Group, servingSize units.Value, options ...Option) Food {
+func New(id uuid.UUID, name string, group dash.Group, servingSize units.Value, options ...Option) Food {
 	food := Food{
 		id:          id,
 		name:        "",
@@ -51,7 +49,7 @@ func (f *Food) DASHGroup() dash.Group {
 }
 
 // ID returns the food id.
-func (f *Food) ID() ID {
+func (f *Food) ID() uuid.UUID {
 	return f.id
 }
 
