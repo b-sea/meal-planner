@@ -73,15 +73,19 @@ func New() *DASH {
 	return diet
 }
 
-type Serving struct {
-	amount float64
-	item   Tallier
+func (d DASH) Requirements() []Requirement {
+	return d.requirements
 }
 
-func NewServing(amount float64, item Tallier) Serving {
+type Serving struct {
+	count float64
+	item  Tallier
+}
+
+func NewServing(count float64, item Tallier) Serving {
 	return Serving{
-		amount: amount,
-		item:   item,
+		count: count,
+		item:  item,
 	}
 }
 
@@ -89,7 +93,7 @@ type Count struct {
 	Group     Group
 	Min       float64
 	Max       float64
-	Total     float64
+	Actual    float64
 	Deviation float64
 }
 
@@ -97,7 +101,7 @@ func (d *DASH) Tally(servings []Serving, days int) []Count {
 	tallies := make(map[Group]float64)
 
 	for _, serving := range servings {
-		tallies[serving.item.DASHGroup()] += serving.amount
+		tallies[serving.item.DASHGroup()] += serving.count
 	}
 
 	result := make([]Count, 0)
@@ -121,7 +125,7 @@ func (d *DASH) Tally(servings []Serving, days int) []Count {
 				Group:     requirement.group,
 				Min:       requirement.min,
 				Max:       requirement.max,
-				Total:     count,
+				Actual:    count,
 				Deviation: deviation,
 			},
 		)

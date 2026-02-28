@@ -21,10 +21,19 @@ func WithIngredient(quantity units.Value, item food.Food) Option {
 	}
 }
 
-type PlanOption func(p Plan)
+type PlanOption func(p *Plan)
 
 func WithDay(date time.Time, meals []Meal) PlanOption {
-	return func(p Plan) {
+	return func(p *Plan) {
 		p.days[date] = meals
+	}
+}
+
+func WithCalorieTarget(min float64, max float64) PlanOption {
+	return func(p *Plan) {
+		p.kcalTarget = CalorieTarget{
+			min: min,
+			max: max,
+		}
 	}
 }
