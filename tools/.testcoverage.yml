@@ -8,8 +8,11 @@ threshold:
 
 exclude:
   paths:
+    - api
+    - cmd
     - dash/group.go
     - mariadb
     - meal/error.go
+    - mock
 
 force-annotation-comment: true

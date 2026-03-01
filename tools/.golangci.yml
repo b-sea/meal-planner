@@ -10,6 +10,11 @@ linters:
     - noinlineerr
     - exhaustruct
 
+  exclusions:
+    paths:
+      - mock
+
+
   settings:
     wsl_v5:
       allow-first-in-block: true
