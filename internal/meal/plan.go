@@ -3,8 +3,8 @@ package meal
 import (
 	"time"
 
-	"github.com/b-sea/meal-planner/dash"
-	"github.com/b-sea/meal-planner/food"
+	"github.com/b-sea/meal-planner/internal/dash"
+	"github.com/b-sea/meal-planner/internal/food"
 	"github.com/google/uuid"
 )
 

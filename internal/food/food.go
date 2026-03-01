@@ -2,7 +2,7 @@
 package food
 
 import (
-	"github.com/b-sea/meal-planner/dash"
+	"github.com/b-sea/meal-planner/internal/dash"
 	"github.com/bcicen/go-units"
 	"github.com/google/uuid"
 )

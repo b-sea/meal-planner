@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"github.com/b-sea/go-server/server"
-	"github.com/b-sea/meal-planner/mariadb"
+	"github.com/b-sea/meal-planner/internal/mariadb"
 )
 
 var _ mariadb.Recorder = (*Recorder)(nil)

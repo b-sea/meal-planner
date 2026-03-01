@@ -6,7 +6,7 @@ import (
 	"syscall"
 
 	"github.com/b-sea/go-config/config"
-	"github.com/b-sea/meal-planner/api"
+	"github.com/b-sea/meal-planner/internal/api"
 	"github.com/spf13/cobra"
 )
 
