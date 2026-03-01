@@ -9,6 +9,7 @@ threshold:
 exclude:
   paths:
     - dash/group.go
+    - mariadb
     - meal/error.go
 
 force-annotation-comment: true

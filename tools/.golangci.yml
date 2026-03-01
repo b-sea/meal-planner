@@ -19,6 +19,8 @@ linters:
     varnamelen:
       ignore-names:
         - id
+        - tx
+        - fn
         - r
         - i
 
