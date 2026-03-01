@@ -1,7 +1,7 @@
 package mock
 
 import (
-	"github.com/b-sea/meal-planner/food"
+	"github.com/b-sea/meal-planner/internal/food"
 	"github.com/google/uuid"
 )
 

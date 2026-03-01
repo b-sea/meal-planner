@@ -3,9 +3,9 @@ package meal_test
 import (
 	"testing"
 
-	"github.com/b-sea/meal-planner/dash"
-	"github.com/b-sea/meal-planner/food"
-	"github.com/b-sea/meal-planner/meal"
+	"github.com/b-sea/meal-planner/internal/dash"
+	"github.com/b-sea/meal-planner/internal/food"
+	"github.com/b-sea/meal-planner/internal/meal"
 	"github.com/bcicen/go-units"
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"

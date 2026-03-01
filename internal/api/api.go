@@ -7,8 +7,8 @@ import (
 	"time"
 
 	"github.com/b-sea/go-server/server"
-	"github.com/b-sea/meal-planner/dash"
-	"github.com/b-sea/meal-planner/mock"
+	"github.com/b-sea/meal-planner/internal/dash"
+	"github.com/b-sea/meal-planner/internal/mock"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/pkgerrors"
 )

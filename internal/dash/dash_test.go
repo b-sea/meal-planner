@@ -3,7 +3,7 @@ package dash_test
 import (
 	"testing"
 
-	"github.com/b-sea/meal-planner/dash"
+	"github.com/b-sea/meal-planner/internal/dash"
 	"github.com/stretchr/testify/assert"
 )
 
