@@ -1,8 +1,9 @@
+---
 services:
   supplyrun:
     image: meal-planner:latest
     container_name: meal-planner
-    build: 
+    build:
       context: .
       dockerfile: docker/mealplan.dockerfile
       target: deploy
