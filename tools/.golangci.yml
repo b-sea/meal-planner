@@ -9,6 +9,11 @@ linters:
     - depguard
     - noinlineerr
     - exhaustruct
+  
+  exclusions:
+    paths:
+      - mock
+
 
   settings:
     wsl_v5:
