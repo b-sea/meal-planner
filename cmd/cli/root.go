@@ -9,7 +9,7 @@ import (
 func New(version string) *cobra.Command {
 	root := &cobra.Command{
 		Version: version,
-		Use:     "mealplanner [OPTIONS] [COMMAND]",
+		Use:     "mealplan [OPTIONS] [COMMAND]",
 		Short:   "The meal planner backend tools",
 	}
 

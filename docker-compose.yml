@@ -1,0 +1,28 @@
+services:
+  supplyrun:
+    image: meal-planner:latest
+    container_name: meal-planner
+    build: 
+      context: .
+      dockerfile: docker/mealplan.dockerfile
+      target: deploy
+      args:
+        - VERSION=dev-version-0.0.0
+    env_file:
+      - .env
+    environment:
+      - SUPPLYRUN__SERVER_PORT=5000
+      - SUPPLYRUN_MARIADB__HOST=mariadb
+    ports:
+      - 5000:5000
+    command: start --config /config.yml
+    volumes:
+      - ./.config.yml:/config.yml
+
+  mariadb:
+    image: mariadb:12.1.2
+    container_name: mariadb
+    ports:
+      - 3306:3306
+    env_file:
+      - .env
